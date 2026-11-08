@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Rapid Onward Transfers</title></head>
+<body>
+<h1>Rapid Onward Transfer Detection (F13)</h1>
+<form method="get" action="/analysis/forwarding">
+  <label>Time limit (minutes): <input type="number" name="maxGapMinutes" min="1" th:value="${maxGapMinutes}"></label>
+  <button type="submit">Run</button>
+</form>
+<p th:if="${error}" th:text="${error}" style="color:red"></p>
+<p th:if="${matches != null and #lists.isEmpty(matches)}">No rapid onward transfers found.</p>
+<table border="1" cellpadding="4" th:if="${matches != null and !#lists.isEmpty(matches)}">
+  <tr><th>Rule v</th><th>Evidence (in &rarr; out)</th><th>Explanation</th></tr>
+  <tr th:each="m : ${matches}">
+    <td th:text="${m.ruleVersion}"></td>
+    <td th:text="${#strings.listJoin(m.orderedTransactionIds, ' → ')}"></td>
+    <td th:text="${m.explanation}"></td>
+  </tr>
+</table>
+<p><small>Synthetic data only. A flagged pattern needs review; it does not prove fraud.</small></p>
+</body>
+</html>
