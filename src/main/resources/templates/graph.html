@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Graph Analysis | MFS FraudGraph</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #f4e8ff, #e9fff2);
+            color: #391467;
+        }
+
+        header {
+            padding: 22px 5%;
+            background: linear-gradient(100deg, #542084, #8643be);
+            color: white;
+        }
+
+        main {
+            padding: 35px 5%;
+        }
+
+        .graph-panel {
+            background: white;
+            border: 1px solid #e2d4f4;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 12px 35px #6b329415;
+        }
+
+        #transactionGraph {
+            height: 520px;
+            border-radius: 15px;
+            background: #fbf8ff;
+        }
+
+        /* Provider legend */
+        .graph-legend {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            background: #f8f3ff;
+            border: 1px solid #e7d8f5;
+            border-radius: 12px;
+        }
+
+        .graph-legend span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #391467;
+        }
+
+        .legend-dot {
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+        }
+
+        .bkash-dot {
+            background: #E92D85;
+        }
+
+        .nagad-dot {
+            background: #F28C28;
+        }
+
+        .rocket-dot {
+            background: #8645C9;
+        }
+
+        /* Selected account or transaction details */
+        #graphDetails {
+            margin-top: 18px;
+            padding: 18px;
+            background: #f1e9ff;
+            border-radius: 12px;
+            color: #391467;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>MFS FraudGraph</h2>
+    </header>
+
+    <main>
+        <h1>Transaction Graph Analysis</h1>
+
+        <p>Explore simulated mobile financial transactions.</p>
+
+        <section class="graph-panel">
+            <h2>Transaction Network</h2>
+
+            <div class="graph-legend">
+                <span>
+                    <i class="legend-dot bkash-dot"></i>
+                    bKash
+                </span>
+
+                <span>
+                    <i class="legend-dot nagad-dot"></i>
+                    Nagad
+                </span>
+
+                <span>
+                    <i class="legend-dot rocket-dot"></i>
+                    Rocket
+                </span>
+            </div>
+
+            <div id="transactionGraph"></div>
+
+            <div id="graphDetails" aria-live="polite">
+                Click an account or transaction arrow to view details.
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.33.1/cytoscape.min.js"></script>
+    <script th:src="@{/js/graph.js}"></script>
+
+</body>
+
+</html>
