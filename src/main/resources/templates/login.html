@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | MFS FraudGraph</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <div class="brand-icon">✦</div>
+        <div>
+            <h2>MFS <span>FraudGraph</span></h2>
+            <p>Mobile Financial Fraud Pattern Detection</p>
+        </div>
+    </div>
+
+    <div class="top-label">Secure Investigation Platform</div>
+</header>
+
+<main class="page">
+
+    <section class="login-container">
+
+        <!-- Left information panel -->
+        <div class="information-panel">
+
+            <div class="tag">MFS FRAUDGRAPH</div>
+
+            <h1>
+                Detect Patterns.<br>
+                <span>Understand Connections.</span><br>
+                Investigate Smarter.
+            </h1>
+
+            <p class="description">
+                An explainable transaction analysis platform
+                designed to investigate suspicious patterns
+                across Bangladesh's mobile financial services.
+            </p>
+
+            <div class="provider-section">
+                <p>SIMULATED MFS PROVIDERS</p>
+
+                <div class="providers">
+                    <div class="provider bkash">bKash</div>
+                    <div class="provider nagad">Nagad</div>
+                    <div class="provider rocket">Rocket</div>
+                </div>
+            </div>
+
+            <div class="network-card">
+                <div class="network-title">
+                    <span class="live-dot"></span>
+                    Transaction Network Analysis
+                </div>
+
+                <svg viewBox="0 0 400 180" role="img"
+                     aria-label="Illustrative connected transaction accounts">
+
+                    <g stroke="#aa85e8" stroke-width="2"
+                       fill="none" opacity="0.85">
+                        <path d="M70 90 L155 42"/>
+                        <path d="M155 42 L245 88"/>
+                        <path d="M245 88 L335 48"/>
+                        <path d="M245 88 L320 150"/>
+                        <path d="M245 88 L145 145"/>
+                        <path d="M145 145 L70 90"/>
+                    </g>
+
+                    <g fill="#d5f8e3" stroke="#4ac98d"
+                       stroke-width="3">
+                        <circle cx="70" cy="90" r="19"/>
+                        <circle cx="155" cy="42" r="19"/>
+                        <circle cx="335" cy="48" r="19"/>
+                        <circle cx="320" cy="150" r="19"/>
+                        <circle cx="145" cy="145" r="19"/>
+                    </g>
+
+                    <circle cx="245" cy="88" r="29"
+                            fill="#f5dbff"
+                            stroke="#a538d2"
+                            stroke-width="4"/>
+
+                    <g fill="#42206a" font-size="13"
+                       font-weight="bold" text-anchor="middle">
+                        <text x="70" y="95">A</text>
+                        <text x="155" y="47">B</text>
+                        <text x="245" y="93">C</text>
+                        <text x="335" y="53">D</text>
+                        <text x="320" y="155">E</text>
+                        <text x="145" y="150">F</text>
+                    </g>
+                </svg>
+
+                <p class="network-caption">
+                    Graph-based detection • Explainable alerts
+                </p>
+            </div>
+        </div>
+
+        <!-- Right login panel -->
+        <div class="form-panel">
+
+            <div class="security-icon">♢</div>
+
+            <h2>Welcome Back</h2>
+            <p class="subtitle">
+                Sign in to access the investigation workspace.
+            </p>
+
+            <div class="error-message" th:if="${param.error}">
+                Invalid username or password.
+            </div>
+
+            <div class="success-message" th:if="${param.logout}">
+                You have successfully logged out.
+            </div>
+
+            <form th:action="@{/login}" method="post">
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text"
+                           id="username"
+                           name="username"
+                           placeholder="Enter your username"
+                           autocomplete="username"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="Enter your password"
+                           autocomplete="current-password"
+                           required>
+                </div>
+
+                <button type="submit" class="login-button">
+                    Sign In →
+                </button>
+
+            </form>
+
+            <div class="secure-note">
+                <span>🔒</span>
+                Authorized access only
+            </div>
+
+            <div class="form-footer">
+                <p>Protected investigation workspace</p>
+                <p>BRAC University · CSE470</p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | MFS FraudGraph</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(
+                135deg, #f6edff, #f9fffb
+            );
+            min-height: 100vh;
+            color: #37165f;
+        }
+
+        header {
+            background: linear-gradient(
+                100deg, #542084, #8643be
+            );
+            color: white;
+            padding: 22px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        header span {
+            color: #b9ffda;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 70px auto;
+            padding: 25px;
+        }
+
+        .welcome {
+            background: white;
+            border-radius: 22px;
+            padding: 45px;
+            box-shadow: 0 15px 45px #6b32941a;
+        }
+
+        .welcome h1 {
+            font-size: 32px;
+        }
+
+        .welcome p {
+            color: #79658f;
+            line-height: 1.7;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit, minmax(210px, 1fr)
+            );
+            gap: 18px;
+            margin-top: 28px;
+        }
+
+        .card {
+            padding: 25px;
+            border-radius: 16px;
+            background: #f4eaff;
+            border: 1px solid #e4d2f6;
+        }
+
+        .card:nth-child(2) {
+            background: #e4faed;
+            border-color: #bcebd0;
+        }
+
+        .card:nth-child(3) {
+            background: #f5ecff;
+        }
+
+        button {
+            background: #e4faed;
+            color: #37165f;
+            border: none;
+            border-radius: 9px;
+            padding: 12px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>MFS <span>FraudGraph</span></h2>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Log Out</button>
+    </form>
+</header>
+
+<main>
+    <section class="welcome">
+        <h1>Welcome to MFS FraudGraph</h1>
+
+        <p>
+            Mobile Financial Fraud Pattern Detection
+            for simulated bKash, Nagad, and Rocket
+            transactions.
+        </p>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Transaction Analysis</h3>
+                <p>Graph-based account exploration.</p>
+                <strong>Planned</strong>
+            </div>
+
+            <div class="card">
+                <h3>Detection Rules</h3>
+                <p>Explainable suspicious pattern detection.</p>
+                <strong>Planned</strong>
+            </div>
+
+            <div class="card">
+                <h3>Investigations</h3>
+                <p>Review alerts and transaction evidence.</p>
+                <strong>Planned</strong>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
