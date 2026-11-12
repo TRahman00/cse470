@@ -2,10 +2,7 @@ package com.bracu.fraudgraph.domain;
 
 import java.util.List;
 
-/**
- * PatternMatch (Figure 3). Evidence is stored by value (copied transactions + ids),
- * so the alert keeps its original evidence after new datasets are imported (F8).
- */
+
 public class PatternMatch {
     private final Long matchId;
     private final String patternType;
@@ -35,7 +32,6 @@ public class PatternMatch {
 
     public List<Transaction> getEvidenceInOrder() { return evidence; }
 
-    /** Stable identity so repeating a run never creates duplicate findings (F16). */
     public String getFingerprint() {
         return patternType + "|r" + ruleId + "v" + ruleVersion + "|" + String.join(">", orderedTransactionIds);
     }

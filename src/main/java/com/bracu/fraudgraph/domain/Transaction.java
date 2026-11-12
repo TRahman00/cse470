@@ -3,11 +3,7 @@ package com.bracu.fraudgraph.domain;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Transaction (Figure 2). STUB for Sprint 1 so F13 compiles on its own.
- * When Tashfin's real Transaction is merged, delete this file and keep the same getters.
- * senderAccountKey / receiverAccountKey = "providerCode:sampleAccountId" (SRS 2.6).
- */
+
 public class Transaction {
     private final String transactionId;
     private final String senderAccountKey;

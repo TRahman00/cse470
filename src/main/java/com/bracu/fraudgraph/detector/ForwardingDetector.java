@@ -1,10 +1,5 @@
 package com.bracu.fraudgraph.detector;
 
-import com.bracu.fraudgraph.domain.DetectionRule;
-import com.bracu.fraudgraph.domain.GraphSnapshot;
-import com.bracu.fraudgraph.domain.PatternMatch;
-import com.bracu.fraudgraph.domain.Transaction;
-
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -12,20 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * F13 - Rapid Onward Transfer Detection.
- *
- * Flags an outgoing transfer made by an account shortly after that same account received an incoming transfer.
- * Rule parameter: "maxGapMinutes" (positive integer, default 5).
- *
- * Decisions (state these in the viva):
- *  - Only Completed transactions are used (SRS 2.6).
- *  - Gap = outgoing.occurredAt - incoming.occurredAt. Match when 0 <= gap <= maxGapMinutes (inclusive).
- *  - Outgoing before incoming (negative gap) is never a match.
- *  - One PatternMatch per (incoming, outgoing) pair, evidence ordered [incoming, outgoing].
- *  - A match does NOT prove the same funds were forwarded (SRS R13), and it does not prove fraud.
- *  - Output is sorted and deterministic, so the same snapshot + rule version gives identical fingerprints.
- */
+import com.bracu.fraudgraph.domain.DetectionRule;
+import com.bracu.fraudgraph.domain.GraphSnapshot;
+import com.bracu.fraudgraph.domain.PatternMatch;
+import com.bracu.fraudgraph.domain.Transaction;
+
+
 public class ForwardingDetector extends PatternDetector {
 
     public static final String PATTERN_TYPE = "RAPID_ONWARD_TRANSFER";

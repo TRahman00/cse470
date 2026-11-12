@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 class ForwardingDetectorTest {
 
     private static final LocalDateTime T0 = LocalDateTime.of(2026, 11, 10, 10, 0, 0);

@@ -3,7 +3,6 @@ package com.bracu.fraudgraph.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/** GraphSnapshot (Figure 2/3). STUB: holds the transactions a detector reads. */
 public class GraphSnapshot {
     private final Long graphId;
     private final LocalDateTime builtAt;
@@ -18,7 +17,6 @@ public class GraphSnapshot {
     public Long getGraphId() { return graphId; }
     public LocalDateTime getBuiltAt() { return builtAt; }
 
-    /** SRS 2.6: only Completed transactions are used in graph-based detections. */
     public List<Transaction> getCompletedTransactions() {
         return transactions.stream().filter(Transaction::isCompleted).toList();
     }
