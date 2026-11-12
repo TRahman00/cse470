@@ -1,22 +1,433 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Rapid Onward Transfers</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FraudGraph | F13 Detection</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0b1220;
+            color: #e5eaf3;
+            min-height: 100vh;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 245px;
+            background: #111c2e;
+            border-right: 1px solid #263449;
+            padding: 30px 20px;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .brand span {
+            color: #38bdf8;
+        }
+
+        .brand-sub {
+            color: #8292a9;
+            font-size: 12px;
+            margin-bottom: 45px;
+        }
+
+        .nav-label {
+            color: #71839d;
+            font-size: 11px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .nav-item {
+            padding: 14px;
+            border-radius: 9px;
+            color: #b7c4d8;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .nav-item.active {
+            background: #183650;
+            color: #5dc8fa;
+            border-left: 3px solid #38bdf8;
+        }
+
+        .main {
+            flex: 1;
+            padding: 38px 45px;
+            max-width: 1500px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            gap: 15px;
+        }
+
+        .eyebrow {
+            color: #38bdf8;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #f8fafc;
+            margin-bottom: 9px;
+        }
+
+        .subtitle {
+            color: #91a0b5;
+            font-size: 14px;
+        }
+
+        .status {
+            background: #12372f;
+            color: #4ade80;
+            border: 1px solid #24634c;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .card {
+            background: #131f32;
+            border: 1px solid #27374d;
+            border-radius: 13px;
+            padding: 23px;
+        }
+
+        .card-label {
+            color: #91a0b5;
+            font-size: 13px;
+            margin-bottom: 17px;
+        }
+
+        .card-value {
+            color: #f8fafc;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .card-note {
+            color: #74869e;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .panel {
+            background: #131f32;
+            border: 1px solid #27374d;
+            border-radius: 13px;
+            padding: 25px;
+            margin-bottom: 22px;
+        }
+
+        .panel-heading {
+            font-size: 17px;
+            font-weight: 650;
+            margin-bottom: 8px;
+        }
+
+        .panel-description {
+            color: #91a0b5;
+            font-size: 13px;
+            margin-bottom: 23px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: end;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        label {
+            display: block;
+            color: #aebbd0;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        input {
+            width: 220px;
+            background: #0b1525;
+            border: 1px solid #35465e;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #38bdf8;
+        }
+
+        button {
+            background: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0369a1;
+        }
+
+        .error {
+            color: #fca5a5;
+            background: #451f2a;
+            border: 1px solid #81394b;
+            border-radius: 8px;
+            padding: 13px;
+            margin-top: 18px;
+            font-size: 13px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            color: #8fa1b9;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #34445a;
+        }
+
+        td {
+            padding: 18px 12px;
+            border-bottom: 1px solid #263449;
+            color: #dce5f1;
+            font-size: 13px;
+            line-height: 1.6;
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .risk {
+            display: inline-block;
+            color: #fbbf24;
+            background: #40351b;
+            border: 1px solid #76602b;
+            border-radius: 20px;
+            padding: 5px 11px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px 15px;
+            color: #a3b2c6;
+            font-size: 14px;
+        }
+
+        .footer {
+            color: #71839b;
+            font-size: 12px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 25px 18px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
 <body>
-<h1>Rapid Onward Transfer Detection (F13)</h1>
-<form method="get" action="/analysis/forwarding">
-  <label>Time limit (minutes): <input type="number" name="maxGapMinutes" min="1" th:value="${maxGapMinutes}"></label>
-  <button type="submit">Run</button>
-</form>
-<p th:if="${error}" th:text="${error}" style="color:red"></p>
-<p th:if="${matches != null and #lists.isEmpty(matches)}">No rapid onward transfers found.</p>
-<table border="1" cellpadding="4" th:if="${matches != null and !#lists.isEmpty(matches)}">
-  <tr><th>Rule v</th><th>Evidence (in &rarr; out)</th><th>Explanation</th></tr>
-  <tr th:each="m : ${matches}">
-    <td th:text="${m.ruleVersion}"></td>
-    <td th:text="${#strings.listJoin(m.orderedTransactionIds, ' → ')}"></td>
-    <td th:text="${m.explanation}"></td>
-  </tr>
-</table>
-<p><small>Synthetic data only. A flagged pattern needs review; it does not prove fraud.</small></p>
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="brand">Fraud<span>Graph</span></div>
+        <div class="brand-sub">FINANCIAL INTELLIGENCE PLATFORM</div>
+
+        <div class="nav-label">DETECTION MODULES</div>
+        <div class="nav-item active">◈ Rapid Onward Transfer</div>
+        <div class="nav-item">◇ Transaction Monitoring</div>
+        <div class="nav-item">◇ Graph Analysis</div>
+    </aside>
+
+    <main class="main">
+
+        <div class="topbar">
+            <div>
+                <div class="eyebrow">FRAUD DETECTION / F13</div>
+                <h1>Rapid Onward Transfer</h1>
+                <p class="subtitle">
+                    Identify accounts receiving and forwarding funds within a short time window.
+                </p>
+            </div>
+
+            <div class="status">● Detection module running</div>
+        </div>
+
+        <section class="cards">
+
+            <div class="card">
+                <div class="card-label">Detection Rule</div>
+                <div class="card-value">F13</div>
+                <div class="card-note">Rapid Onward Transfer</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Time Threshold</div>
+                <div class="card-value">
+                    <span th:text="${maxGapMinutes}">5</span>
+                    <span style="font-size:15px;color:#91a0b5">min</span>
+                </div>
+                <div class="card-note">Maximum allowed transfer gap</div>
+            </div>
+
+            <div class="card">
+                <div class="card-label">Patterns Detected</div>
+                <div class="card-value"
+                     th:text="${matches != null ? #lists.size(matches) : 0}">0</div>
+                <div class="card-note">Matching patterns requiring review</div>
+            </div>
+
+        </section>
+
+        <section class="panel">
+            <div class="panel-heading">Detection Configuration</div>
+            <p class="panel-description">
+                Configure the maximum time allowed between incoming and outgoing transfers.
+            </p>
+
+            <form method="get" action="/analysis/forwarding">
+                <div class="form-row">
+                    <div>
+                        <label for="maxGapMinutes">Maximum time gap (minutes)</label>
+                        <input
+                            id="maxGapMinutes"
+                            type="number"
+                            name="maxGapMinutes"
+                            min="1"
+                            required
+                            th:value="${maxGapMinutes}">
+                    </div>
+
+                    <button type="submit">Run Detection →</button>
+                </div>
+            </form>
+
+            <div class="error"
+                 th:if="${error}"
+                 th:text="${error}">
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-heading">Detection Results</div>
+            <p class="panel-description">
+                Accounts and transaction sequences matching the F13 detection rule.
+            </p>
+
+            <div th:if="${matches != null and #lists.isEmpty(matches)}"
+                 class="empty">
+                <div style="font-size:30px;margin-bottom:12px;">✓</div>
+                <strong>No matching patterns found</strong>
+                <p style="margin-top:8px;">
+                    No rapid onward transfers were detected for this threshold.
+                </p>
+            </div>
+
+            <div class="table-wrap"
+                 th:if="${matches != null and !#lists.isEmpty(matches)}">
+
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Detection</th>
+                        <th>Rule Version</th>
+                        <th>Transaction Sequence</th>
+                        <th>Explanation</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="m : ${matches}">
+                        <td><span class="risk">Review required</span></td>
+                        <td th:text="${m.ruleVersion}"></td>
+                        <td style="color:#7dd3fc;font-weight:600"
+                            th:text="${#strings.listJoin(m.orderedTransactionIds, ' → ')}">
+                        </td>
+                        <td th:text="${m.explanation}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <div class="footer">
+            FraudGraph · F13 Rapid Onward Transfer Detection
+            <br><br>
+            Synthetic demonstration data only. A detected pattern requires investigation
+            and does not independently establish fraud.
+        </div>
+
+    </main>
+</div>
 </body>
 </html>
