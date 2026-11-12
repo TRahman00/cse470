@@ -5,6 +5,7 @@ import com.mfsfraudgraph.model.AnalysisRun;
 import com.mfsfraudgraph.repository.AnalysisRunRepository;
 import com.mfsfraudgraph.service.AnalysisRunService;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,5 +68,17 @@ public class AnalysisRunController {
         return analysisRunRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    // Handle invalid input
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidInput(
+            IllegalArgumentException exception) {
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of(
+                        "error", "Bad Request",
+                        "message", exception.getMessage()));
     }
 }
