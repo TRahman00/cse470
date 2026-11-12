@@ -40,7 +40,10 @@ public class ForwardingDetector extends PatternDetector {
 
     @Override
     public List<PatternMatch> detect(GraphSnapshot graph) {
-        if (graph == null || !rule.isApplicable()) return List.of();
+        if (graph == null || !rule.isApplicable()
+            || !PATTERN_TYPE.equals(rule.getRuleType())) {
+        return List.of();
+        }
 
         Duration limit = Duration.ofMinutes(readMaxGapMinutes(rule));
         Comparator<Transaction> byTimeThenId =
@@ -76,7 +79,6 @@ public class ForwardingDetector extends PatternDetector {
                 + formatGap(gap) + " later; rule limit is " + limit.toMinutes() + " min. "
                 + "This is a pattern to review; it does not show the same funds were forwarded or that fraud occurred.";
     }
-
     private static String formatGap(Duration gap) {
         long s = gap.getSeconds();
         return (s / 60) + " min " + (s % 60) + " s";

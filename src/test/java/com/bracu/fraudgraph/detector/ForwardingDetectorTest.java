@@ -1,11 +1,5 @@
 package com.bracu.fraudgraph.detector;
 
-import com.bracu.fraudgraph.domain.DetectionRule;
-import com.bracu.fraudgraph.domain.GraphSnapshot;
-import com.bracu.fraudgraph.domain.PatternMatch;
-import com.bracu.fraudgraph.domain.Transaction;
-import org.junit.jupiter.api.Test;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +8,12 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
+import com.bracu.fraudgraph.domain.DetectionRule;
+import com.bracu.fraudgraph.domain.GraphSnapshot;
+import com.bracu.fraudgraph.domain.PatternMatch;
+import com.bracu.fraudgraph.domain.Transaction;
 class ForwardingDetectorTest {
 
     private static final LocalDateTime T0 = LocalDateTime.of(2026, 11, 10, 10, 0, 0);
@@ -68,6 +68,16 @@ class ForwardingDetectorTest {
         assertTrue(run(rule("5", true),
                 tx("T1", "A", "B", T0.plusMinutes(3), "Completed"),
                 tx("T2", "B", "C", T0, "Completed")).isEmpty());
+    }
+
+    @Test
+    void differentRuleTypeProducesNothing() {
+        DetectionRule otherRule =
+            new DetectionRule(17L, 1, "OTHER_PATTERN", Map.of("maxGapMinutes", "5"), true);
+
+        assertTrue(run(otherRule,
+            tx("T1", "A", "B", T0, "Completed"),
+            tx("T2", "B", "C", T0.plusMinutes(2), "Completed")).isEmpty());
     }
 
     @Test
