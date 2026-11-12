@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Import result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>Import result: <span th:text="${batch.fileName}"></span></h1>
+
+<p th:if="${message}" class="message" th:text="${message}"></p>
+
+<table>
+    <tr><th>Status</th><td th:text="${batch.status}"></td></tr>
+    <tr><th>Rows in file</th><td th:text="${batch.totalRows}"></td></tr>
+    <tr><th>Saved</th><td th:text="${batch.savedRows}"></td></tr>
+    <tr><th>Rejected</th><td th:text="${batch.rejectedRows}"></td></tr>
+    <tr><th>Exact repeats ignored</th><td th:text="${batch.skippedDuplicates}"></td></tr>
+</table>
+
+<h2>Validation issues</h2>
+<p th:if="${batch.issues.isEmpty()}">No issues. Every row passed validation.</p>
+<table th:unless="${batch.issues.isEmpty()}">
+    <tr><th>Row</th><th>Transaction ID</th><th>Problem</th></tr>
+    <tr th:each="issue : ${batch.issues}">
+        <td th:text="${issue.rowNumber}"></td>
+        <td th:text="${issue.transactionId}"></td>
+        <td th:text="${issue.reason}"></td>
+    </tr>
+</table>
+
+<p><a th:href="@{/imports}">Back to import</a></p>
+</body>
+</html>

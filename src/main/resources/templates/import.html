@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Import data</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>MFS FraudGraph – Import a CSV dataset</h1>
+
+<p th:if="${error}" class="error" th:text="${error}"></p>
+
+<form th:action="@{/imports}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".csv" required>
+    <button type="submit">Import</button>
+</form>
+<p class="muted">
+    Columns: transactionId, senderProvider, senderAccountId, receiverProvider,
+    receiverAccountId, amount, timestamp, status
+</p>
+
+<h2>Saved snapshots</h2>
+<p th:if="${snapshots.isEmpty()}" class="muted">No snapshots yet.</p>
+<table th:unless="${snapshots.isEmpty()}">
+    <tr><th>Version</th><th>File</th><th>Transactions</th><th>Imported at</th></tr>
+    <tr th:each="s : ${snapshots}">
+        <td th:text="${s.version}"></td>
+        <td th:text="${s.fileName}"></td>
+        <td th:text="${s.transactionCount}"></td>
+        <td th:text="${#temporals.format(s.importedAt, 'dd MMM yyyy HH:mm')}"></td>
+    </tr>
+</table>
+
+<h2>All uploads</h2>
+<p th:if="${batches.isEmpty()}" class="muted">Nothing uploaded yet.</p>
+<table th:unless="${batches.isEmpty()}">
+    <tr><th>File</th><th>Status</th><th>Saved</th><th>Rejected</th><th></th></tr>
+    <tr th:each="b : ${batches}">
+        <td th:text="${b.fileName}"></td>
+        <td th:text="${b.status}"></td>
+        <td th:text="${b.savedRows}"></td>
+        <td th:text="${b.rejectedRows}"></td>
+        <td><a th:href="@{/imports/{id}(id=${b.id})}">Details</a></td>
+    </tr>
+</table>
+</body>
+</html>
